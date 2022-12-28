@@ -41,8 +41,8 @@
             <input type="number" placeholder="DNI del Empleado" name="txtdni" id="txtdni">
             <div class="botones">
                 
-                <button class="entrada" type="submit" name="btnentrada" value="ok">ENTRADA</button>
-                <button class="salida" type="submit" name="btnsalida" value="ok">SALIDA</button>
+                <button id="salida" class="salida" type="submit" name="btnsalida" value="ok">SALIDA</button>
+                <button id="entrada" class="entrada" type="submit" name="btnentrada" value="ok">ENTRADA</button>
             </div>
         </form>
     </div>
@@ -62,6 +62,18 @@
                 this.value=this.value.slice(0,8)
             }
         })
+
+        // Eventos para la entrada y salida 
+        document.addEventListener("keyup",function (event) {
+            if (event.code=="ArrowLeft") {
+                document.getElementById("salida").click()
+            } else {
+                if (event.code=="ArrowRight") {
+                    document.getElementById("entrada").click()
+                }
+            }
+        })
+
     </script>
 
 </body>
