@@ -35,7 +35,7 @@
         <a class="acceso" href="./vista/login/login.php">Ingresar al Sistema</a>
         <p class="dni">Ingrese su DNI</p>
         <form action="" method="POST">
-            <input type="text" placeholder="DNI del Empleado" name="txtdni">
+            <input type="number" placeholder="DNI del Empleado" name="txtdni" id="txtdni">
             <div class="botones">
                 
                 <button class="entrada" type="submit" name="btnentrada" value="ok">ENTRADA</button>
@@ -51,5 +51,16 @@
             document.getElementById("fecha").textContent=fechaHora;    
         }, 1000);
     </script>
+
+    <script>
+        let dni=document.getElementById("txtdni");
+        dni.addEventListener("input", function () {
+            if (this.value.length > 8) {
+                this.value=this.value.slice(0,8)
+            }
+        })
+    </script>
+
 </body>
+
 </html>
