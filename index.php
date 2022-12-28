@@ -25,8 +25,11 @@
 
 </head>
 <body>
+    <?php
+    date_default_timezone_set("America/Lima");
+    ?>
     <h1>BIENVENIDOS, REGISTRA TU ASISTENCIA</h1>
-    <h2 id="fecha"></h2>
+    <h2 id="fecha"><?= date("d/m/Y, h:i:s") ?></h2>
     <?php
     include "modelo/conexion.php";
     include "controlador/controlador_registrar_asistencia.php";
