@@ -9,30 +9,52 @@ if (!empty($_POST["btnentrada"])) {
 
             $fecha=date("Y-m-d h:i:s");
             $id_empleado=$id->fetch_object()->id_empleado;
-            $sql=$conexion->query(" insert into asistencia(id_empleado,entrada)values($id_empleado,'$fecha') ");
-            if ($sql == true) { ?>
-                <script>
-                    $(function notificacion(){
-                        new PNotify({
-                            title:"CORRECTO",
-                            type:"success",
-                            text:"Hola, BIENVENIDO",
-                            styling:"bootstrap3"
+
+            $consultaFecha=$conexion->query(" select entrada from asistencia where id_empleado=$id_empleado order by id_asistencia desc limit 1 ");
+            $fechaBD=$consultaFecha->fetch_object()->entrada;
+              
+            if (substr($fecha,0,10)==substr($fechaBD,0,10)) {
+                ?>
+                    <script>
+                        $(function notificacion(){
+                            new PNotify({
+                                title:"INCORRECTO",
+                                type:"error",
+                                text:"Ya registraste tu entrada",
+                                styling:"bootstrap3"
+                            })
                         })
-                    })
-                </script>
-            <?php } else { ?>
-                <script>
-                    $(function notificacion(){
-                        new PNotify({
-                            title:"INCORRECTO",
-                            type:"error",
-                            text:"Error al registrar entrada",
-                            styling:"bootstrap3"
+                    </script>
+                <?php
+            } else {
+                $sql=$conexion->query(" insert into asistencia(id_empleado,entrada)values($id_empleado,'$fecha') ");
+                if ($sql == true) { ?>
+                    <script>
+                        $(function notificacion(){
+                            new PNotify({
+                                title:"CORRECTO",
+                                type:"success",
+                                text:"Hola, BIENVENIDO",
+                                styling:"bootstrap3"
+                            })
                         })
-                    })
-                </script>
-            <?php }
+                    </script>
+                <?php } else { ?>
+                    <script>
+                        $(function notificacion(){
+                            new PNotify({
+                                title:"INCORRECTO",
+                                type:"error",
+                                text:"Error al registrar entrada",
+                                styling:"bootstrap3"
+                            })
+                        })
+                    </script>
+                <?php }
+            }
+            
+
+           
             
 
             
