@@ -105,33 +105,75 @@ if (!empty($_POST["btnsalida"])) {
 
             $fecha=date("Y-m-d h:i:s");
             $id_empleado=$id->fetch_object()->id_empleado;
-            $busqueda=$conexion->query(" select id_asistencia from asistencia where id_empleado=$id_empleado order by id_asistencia desc limit 1 ");
-            $id_asistencia=$busqueda->fetch_object()->id_asistencia;
-            $sql=$conexion->query(" update asistencia set salida='$fecha' where id_asistencia=$id_asistencia ");
-            if ($sql == true) { ?>
-                <script>
-                    $(function notificacion(){
-                        new PNotify({
-                            title:"CORRECTO",
-                            type:"success",
-                            text:"ADIOS, VUELVE PRONTO",
-                            styling:"bootstrap3"
-                        })
-                    })
-                </script>
-            <?php } else { ?>
-                <script>
-                    $(function notificacion(){
-                        new PNotify({
-                            title:"INCORRECTO",
-                            type:"error",
-                            text:"Error al registrar SALIDA",
-                            styling:"bootstrap3"
-                        })
-                    })
-                </script>
-            <?php }
+            $busqueda=$conexion->query(" select id_asistencia,entrada from asistencia where id_empleado=$id_empleado order by id_asistencia desc limit 1 ");
             
+
+            while ($datos=$busqueda->fetch_object()) {
+                $id_asistencia=$datos->id_asistencia;
+                $entradaBD=$datos->entrada;
+            }
+
+            if (substr($fecha,0,10)!=substr($entradaBD,0,10)) {
+                ?>
+                     <script>
+                        $(function notificacion(){
+                            new PNotify({
+                                title:"INCORRECTO",
+                                type:"error",
+                                text:"PRIMERO DEBES REGISTRAR ENTRADA",
+                                styling:"bootstrap3"
+                            })
+                        })
+                     </script>
+                <?php
+            } else {
+                $consultaFecha=$conexion->query(" select salida from asistencia where id_empleado=$id_empleado order by id_asistencia desc limit 1 ");
+                $fechaBD=$consultaFecha->fetch_object()->salida;
+    
+                if (substr($fecha,0,10)==substr($fechaBD,0,10)) {
+                    ?>
+                        <script>
+                            $(function notificacion(){
+                                new PNotify({
+                                    title:"INCORRECTO",
+                                    type:"error",
+                                    text:"YA REGISTRASTE TU SALIDA",
+                                    styling:"bootstrap3"
+                                })
+                            })
+                        </script>
+                    <?php
+                } else {
+                    $sql=$conexion->query(" update asistencia set salida='$fecha' where id_asistencia=$id_asistencia ");
+                    if ($sql == true) { ?>
+                        <script>
+                            $(function notificacion(){
+                                new PNotify({
+                                    title:"CORRECTO",
+                                    type:"success",
+                                    text:"ADIOS, VUELVE PRONTO",
+                                    styling:"bootstrap3"
+                                })
+                            })
+                        </script>
+                    <?php } else { ?>
+                        <script>
+                            $(function notificacion(){
+                                new PNotify({
+                                    title:"INCORRECTO",
+                                    type:"error",
+                                    text:"Error al registrar SALIDA",
+                                    styling:"bootstrap3"
+                                })
+                            })
+                        </script>
+                    <?php }
+                }
+            }
+            
+
+          
+                       
 
             
         } else { ?>
