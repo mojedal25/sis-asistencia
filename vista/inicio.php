@@ -43,6 +43,10 @@
       INNER JOIN cargo ON empleado.cargo = cargo.id_cargo");
     ?>
 
+    <div class="text-right mb-2">
+      <a href="fpdf/PruebaV.php" target="_blank" class="btn btn-success"><i class="fas fa-file-pdf"></i> Generar Reportes</a>
+    </div>
+
     <table class="table table-bordered table-hover col-sm-12" id="example">
       <thead>
         <tr>
