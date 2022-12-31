@@ -8,63 +8,58 @@ class PDF extends FPDF
    // Cabecera de página
    function Header()
    {
-      //include '../../recursos/Recurso_conexion_bd.php';//llamamos a la conexion BD
+      include '../../modelo/conexion.php'; //llamamos a la conexion BD
 
-      //$consulta_info = $conexion->query(" select *from hotel ");//traemos datos de la empresa desde BD
-      //$dato_info = $consulta_info->fetch_object();
+      $consulta_info = $conexion->query(" select * from empresa "); //traemos datos de la empresa desde BD
+      $dato_info = $consulta_info->fetch_object();
       $this->Image('logo.png', 270, 5, 20); //logo de la empresa,moverDerecha,moverAbajo,tamañoIMG
       $this->SetFont('Arial', 'B', 19); //tipo fuente, negrita(B-I-U-BIU), tamañoTexto
       $this->Cell(95); // Movernos a la derecha
       $this->SetTextColor(0, 0, 0); //color
       //creamos una celda o fila
-      $this->Cell(110, 15, utf8_decode('NOMBRE EMPRESA'), 1, 1, 'C', 0); // AnchoCelda,AltoCelda,titulo,borde(1-0),saltoLinea(1-0),posicion(L-C-R),ColorFondo(1-0)
+      $this->Cell(110, 15, utf8_decode($dato_info->nombre), 1, 1, 'C', 0); // AnchoCelda,AltoCelda,titulo,borde(1-0),saltoLinea(1-0),posicion(L-C-R),ColorFondo(1-0)
       $this->Ln(3); // Salto de línea
       $this->SetTextColor(103); //color
 
       /* UBICACION */
       $this->Cell(180);  // mover a la derecha
       $this->SetFont('Arial', 'B', 10);
-      $this->Cell(96, 10, utf8_decode("Ubicación : "), 0, 0, '', 0);
+      $this->Cell(96, 10, utf8_decode("Ubicación : " . $dato_info->ubicacion), 0, 0, '', 0);
       $this->Ln(5);
 
       /* TELEFONO */
       $this->Cell(180);  // mover a la derecha
       $this->SetFont('Arial', 'B', 10);
-      $this->Cell(59, 10, utf8_decode("Teléfono : "), 0, 0, '', 0);
+      $this->Cell(59, 10, utf8_decode("Teléfono : . $dato_info->telefono"), 0, 0, '', 0);
       $this->Ln(5);
 
       /* COREEO */
       $this->Cell(180);  // mover a la derecha
       $this->SetFont('Arial', 'B', 10);
-      $this->Cell(85, 10, utf8_decode("Correo : "), 0, 0, '', 0);
-      $this->Ln(5);
-
-      /* TELEFONO */
-      $this->Cell(180);  // mover a la derecha
-      $this->SetFont('Arial', 'B', 10);
-      $this->Cell(85, 10, utf8_decode("Sucursal : "), 0, 0, '', 0);
+      $this->Cell(85, 10, utf8_decode("Ruc : " . $dato_info->ruc), 0, 0, '', 0);
       $this->Ln(10);
+     
 
       /* TITULO DE LA TABLA */
       //color
-      $this->SetTextColor(228, 100, 0);
+      $this->SetTextColor(160, 24, 12);
       $this->Cell(100); // mover a la derecha
       $this->SetFont('Arial', 'B', 15);
-      $this->Cell(100, 10, utf8_decode("REPORTE DE HABITACIONES "), 0, 1, 'C', 0);
+      $this->Cell(100, 10, utf8_decode("REPORTE DE ASISTENCIAS "), 0, 1, 'C', 0);
       $this->Ln(7);
 
       /* CAMPOS DE LA TABLA */
       //color
-      $this->SetFillColor(228, 100, 0); //colorFondo
+      $this->SetFillColor(160, 24, 12); //colorFondo
       $this->SetTextColor(255, 255, 255); //colorTexto
       $this->SetDrawColor(163, 163, 163); //colorBorde
       $this->SetFont('Arial', 'B', 11);
-      $this->Cell(30, 10, utf8_decode('N°'), 1, 0, 'C', 1);
-      $this->Cell(40, 10, utf8_decode('NÚMERO'), 1, 0, 'C', 1);
-      $this->Cell(40, 10, utf8_decode('TIPO'), 1, 0, 'C', 1);
-      $this->Cell(40, 10, utf8_decode('PRECIO'), 1, 0, 'C', 1);
-      $this->Cell(85, 10, utf8_decode('CARACTERÍSTICAS'), 1, 0, 'C', 1);
-      $this->Cell(40, 10, utf8_decode('ESTADO'), 1, 1, 'C', 1);
+      $this->Cell(15, 10, utf8_decode('N°'), 1, 0, 'C', 1);
+      $this->Cell(80, 10, utf8_decode('EMPLEADO'), 1, 0, 'C', 1);
+      $this->Cell(30, 10, utf8_decode('DNI'), 1, 0, 'C', 1);
+      $this->Cell(50, 10, utf8_decode('CARGO'), 1, 0, 'C', 1);
+      $this->Cell(50, 10, utf8_decode('ENTRADA'), 1, 0, 'C', 1);
+      $this->Cell(50, 10, utf8_decode('SALIDA'), 1, 1, 'C', 1);
    }
 
    // Pie de página
@@ -81,7 +76,7 @@ class PDF extends FPDF
    }
 }
 
-//include '../../recursos/Recurso_conexion_bd.php';
+include '../../modelo/conexion.php';
 //require '../../funciones/CortarCadena.php';
 /* CONSULTA INFORMACION DEL HOSPEDAJE */
 //$consulta_info = $conexion->query(" select *from hotel ");
@@ -95,18 +90,22 @@ $i = 0;
 $pdf->SetFont('Arial', '', 12);
 $pdf->SetDrawColor(163, 163, 163); //colorBorde
 
-/*$consulta_reporte_alquiler = $conexion->query("  ");*/
+$consulta_reporte_alquiler = $conexion->query(" select asistencia.entrada,asistencia.salida, empleado.nombre, empleado.apellido,empleado.dni,cargo.nombre as 'nomCargo' from asistencia
+inner join empleado ON asistencia.id_empleado=empleado.id_empleado
+inner join cargo ON empleado.cargo=cargo.id_cargo ");
 
-/*while ($datos_reporte = $consulta_reporte_alquiler->fetch_object()) {      
-   }*/
-$i = $i + 1;
-/* TABLA */
-$pdf->Cell(30, 10, utf8_decode("N°"), 1, 0, 'C', 0);
-$pdf->Cell(40, 10, utf8_decode("numero"), 1, 0, 'C', 0);
-$pdf->Cell(40, 10, utf8_decode("nombre"), 1, 0, 'C', 0);
-$pdf->Cell(40, 10, utf8_decode("precio"), 1, 0, 'C', 0);
-$pdf->Cell(85, 10, utf8_decode("info"), 1, 0, 'C', 0);
-$pdf->Cell(40, 10, utf8_decode("total"), 1, 1, 'C', 0);
+while ($datos_reporte = $consulta_reporte_alquiler->fetch_object()) {     
+   $i = $i + 1;
+   /* TABLA */
+   $pdf->Cell(15, 10, utf8_decode($i), 1, 0, 'C', 0);
+   $pdf->Cell(80, 10, utf8_decode($datos_reporte->nombre ." ". $datos_reporte->apellido), 1, 0, 'C', 0);
+   $pdf->Cell(30, 10, utf8_decode($datos_reporte->dni), 1, 0, 'C', 0);
+   $pdf->Cell(50, 10, utf8_decode($datos_reporte->nomCargo), 1, 0, 'C', 0);
+   $pdf->Cell(50, 10, utf8_decode($datos_reporte->entrada), 1, 0, 'C', 0);
+   $pdf->Cell(50, 10, utf8_decode($datos_reporte->salida), 1, 1, 'C', 0);
+
+   }
+
 
 
 $pdf->Output('Prueba2.pdf', 'I');//nombreDescarga, Visor(I->visualizar - D->descargar)

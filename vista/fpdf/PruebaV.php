@@ -14,7 +14,7 @@ class PDF extends FPDF
       //$dato_info = $consulta_info->fetch_object();
       $this->Image('logo.png', 185, 5, 20); //logo de la empresa,moverDerecha,moverAbajo,tamañoIMG
       $this->SetFont('Arial', 'B', 19); //tipo fuente, negrita(B-I-U-BIU), tamañoTexto
-      $this->Cell(45); // Movernos a la derecha
+      $this->Cell(45); // Movernos a la derecha el titulo
       $this->SetTextColor(0, 0, 0); //color
       //creamos una celda o fila
       $this->Cell(110, 15, utf8_decode('NOMBRE EMPRESA'), 1, 1, 'C', 0); // AnchoCelda,AltoCelda,titulo,borde(1-0),saltoLinea(1-0),posicion(L-C-R),ColorFondo(1-0)
