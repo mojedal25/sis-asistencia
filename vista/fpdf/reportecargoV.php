@@ -12,9 +12,9 @@ class PDF extends FPDF
 
       $consulta_info = $conexion->query(" select * from empresa "); //traemos datos de la empresa desde BD
       $dato_info = $consulta_info->fetch_object();
-      $this->Image('logo.png', 270, 5, 20); //logo de la empresa,moverDerecha,moverAbajo,tamañoIMG
+      $this->Image('logo.png', 180, 5, 20); //logo de la empresa,moverDerecha,moverAbajo,tamañoIMG
       $this->SetFont('Arial', 'B', 19); //tipo fuente, negrita(B-I-U-BIU), tamañoTexto
-      $this->Cell(90); // Movernos a la derecha
+      $this->Cell(40); // Movernos a la derecha
       $this->SetTextColor(0, 0, 0); //color
       //creamos una celda o fila
       $this->Cell(110, 15, utf8_decode($dato_info->nombre), 1, 1, 'C', 0); // AnchoCelda,AltoCelda,titulo,borde(1-0),saltoLinea(1-0),posicion(L-C-R),ColorFondo(1-0)
@@ -22,19 +22,19 @@ class PDF extends FPDF
       $this->SetTextColor(103); //color
 
       /* UBICACION */
-      $this->Cell(200);  // mover a la derecha
+      $this->Cell(130);  // mover a la derecha
       $this->SetFont('Arial', 'B', 10);
       $this->Cell(96, 10, utf8_decode("Ubicación : " . $dato_info->ubicacion), 0, 0, '', 0);
       $this->Ln(5);
 
       /* TELEFONO */
-      $this->Cell(200);  // mover a la derecha
+      $this->Cell(130);  // mover a la derecha
       $this->SetFont('Arial', 'B', 10);
       $this->Cell(59, 10, utf8_decode("Teléfono : . $dato_info->telefono"), 0, 0, '', 0);
       $this->Ln(5);
 
       /* COREEO */
-      $this->Cell(200);  // mover a la derecha
+      $this->Cell(130);  // mover a la derecha
       $this->SetFont('Arial', 'B', 10);
       $this->Cell(85, 10, utf8_decode("Ruc : " . $dato_info->ruc), 0, 0, '', 0);
       $this->Ln(10);
@@ -43,9 +43,9 @@ class PDF extends FPDF
       /* TITULO DE LA TABLA */
       //color
       $this->SetTextColor(160, 24, 12);
-      $this->Cell(90); // mover a la derecha
+      $this->Cell(50); // mover a la derecha
       $this->SetFont('Arial', 'B', 15);
-      $this->Cell(100, 10, utf8_decode("REPORTE DE EMPLEADOS"), 0, 1, 'C', 0);
+      $this->Cell(100, 10, utf8_decode("REPORTE DE CARGOS "), 0, 1, 'C', 0);
       $this->Ln(7);
 
       /* CAMPOS DE LA TABLA */
@@ -54,10 +54,8 @@ class PDF extends FPDF
       $this->SetTextColor(255, 255, 255); //colorTexto
       $this->SetDrawColor(163, 163, 163); //colorBorde
       $this->SetFont('Arial', 'B', 11);
-      $this->Cell(15, 10, utf8_decode('N°'), 1, 0, 'C', 1);
-      $this->Cell(150, 10, utf8_decode('EMPLEADO'), 1, 0, 'C', 1);
-      $this->Cell(30, 10, utf8_decode('DNI'), 1, 0, 'C', 1);
-      $this->Cell(80, 10, utf8_decode('CARGO'), 1, 1, 'C', 1);
+      $this->Cell(25, 10, utf8_decode('N°'), 1, 0, 'C', 1);
+      $this->Cell(165, 10, utf8_decode('NOMBRE'), 1, 1, 'C', 1);
       
    }
 
@@ -82,26 +80,25 @@ include '../../modelo/conexion.php';
 //$dato_info = $consulta_info->fetch_object();
 
 $pdf = new PDF();
-$pdf->AddPage("landscape"); /* aqui entran dos para parametros (horientazion,tamaño)V->portrait H->landscape tamaño (A3.A4.A5.letter.legal) */
+$pdf->AddPage(); /* aqui entran dos para parametros (horientazion,tamaño)V->portrait H->landscape tamaño (A3.A4.A5.letter.legal) */
 $pdf->AliasNbPages(); //muestra la pagina / y total de paginas
 
 $i = 0;
 $pdf->SetFont('Arial', '', 12);
 $pdf->SetDrawColor(163, 163, 163); //colorBorde
 
-$consulta_reporte_empleado = $conexion->query(" select empleado.nombre, empleado.apellido,empleado.dni,cargo.nombre as 'nomCargo' from empleado
-inner join cargo ON cargo.id_cargo=empleado.cargo ");
+$consulta_reporte_usuario = $conexion->query(" select * from cargo ");
 
-while ($datos_reporte = $consulta_reporte_empleado->fetch_object()) {     
+while ($datos_reporte = $consulta_reporte_usuario->fetch_object()) {     
    $i = $i + 1;
    /* TABLA */
-   $pdf->Cell(15, 10, utf8_decode($i), 1, 0, 'C', 0);
-   $pdf->Cell(150, 10, utf8_decode($datos_reporte->nombre ." ". $datos_reporte->apellido), 1, 0, 'C', 0);
-   $pdf->Cell(30, 10, utf8_decode($datos_reporte->dni), 1, 0, 'C', 0);
-   $pdf->Cell(80, 10, utf8_decode($datos_reporte->nomCargo), 1, 1, 'C', 0);
+   $pdf->Cell(25, 10, utf8_decode($i), 1, 0, 'C', 0);
+   $pdf->Cell(165, 10, utf8_decode($datos_reporte->nombre), 1, 1, 'C', 0);
    
+   
+
    }
 
 
 
-$pdf->Output('Reporte_empleado.pdf', 'I');//nombreDescarga, Visor(I->visualizar - D->descargar)
+$pdf->Output('Reporte_cargo.pdf', 'I');//nombreDescarga, Visor(I->visualizar - D->descargar)
