@@ -101,7 +101,7 @@
                       <?php
                         $sql2=$conexion->query(" select * from cargo ");
                         while ($datos2=$sql2->fetch_object()) { ?>
-                          <option <?= $datos->cargo==$datos2->id_cargo ? 'selected' : '' ?> value="<?= $datos2->id_empleado ?>"><?= $datos2->nombre ?></option>
+                          <option <?= $datos->cargo==$datos2->id_cargo ? 'selected' : '' ?> value="<?= $datos2->id_cargo ?>"><?= $datos2->nombre ?></option>
                         <?php }
                       ?>
                     </select>
