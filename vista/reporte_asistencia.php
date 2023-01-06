@@ -27,11 +27,11 @@
       $sql = $conexion->query(" select * from empleado ");
     ?>
 
-    <form action="">
-      <input type="date" name="txtfechainicio" class="input input__text mb-2">
-      <input type="date" name="txtfechafinal" class="input input__text mb-2">
-      <select name="" class="input input__select mb-2">
-        <option value="">Todos los empleados</option>
+    <form action="fpdf/reporteasistenciafechaH.php" target="_blank">
+      <input required type="date" name="txtfechainicio" class="input input__text mb-2">
+      <input required type="date" name="txtfechafinal" class="input input__text mb-2">
+      <select required name="txtempleado" class="input input__select mb-2">
+        <option value="todos">Todos los empleados</option>
         <?php
           while ($datos=$sql->fetch_object()) { ?>
             <option value="<?= $datos->id_empleado ?>"><?= $datos->nombre ." ". $datos->apellido ?></option>
