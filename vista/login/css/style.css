@@ -103,7 +103,7 @@ form{
 	bottom: -2px;
 	width: 0%;
 	height: 2px;
-	background-color: #04a1fc;
+	background-color: #A0180C;
 	transition: .4s;
 }
 
@@ -125,7 +125,7 @@ form{
 }
 
 .input-div.focus > .i > i{
-	color: #04a1fc;
+	color: #A0180C;
 }
 
 .input-div > div > input{
@@ -171,7 +171,7 @@ a{
 }
 
 a:hover{
-	color: #04a1fc;
+	color: #A0180C;
 }
 
 .btn{
@@ -181,7 +181,7 @@ a:hover{
 	border-radius: 25px;
 	outline: none;
 	border: none;
-	background: #04a1fc;
+	background: #A0180C;
 	background-size: 200%;
 	font-size: 1.2rem;
 	color: #fff;

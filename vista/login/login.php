@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -10,15 +10,15 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
     <!-- <link rel="stylesheet" href="css/all.min.css"> -->
     <!-- <link rel="stylesheet" href="css/fontawesome.min.css"> -->
-    <link href="https://tresplazas.com/web/img/big_punto_de_venta.png" rel="shortcut icon">
+    <link href="./img/aprendizaje-electronico.png" rel="shortcut icon">
     <title>Inicio de sesión</title>
 </head>
 
 <body>
-    <img class="wave" src="img/wave.png">
+    <img class="wave" src="">
     <div class="container">
         <div class="img">
-            <img src="img/bg.svg">
+            <img src="img/Logo_mundo.jpg">
         </div>
         <div class="login-content">
             <form method="POST" action="">
