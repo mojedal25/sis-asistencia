@@ -12,7 +12,7 @@ class PDF extends FPDF
 
       $consulta_info = $conexion->query(" select * from empresa "); //traemos datos de la empresa desde BD
       $dato_info = $consulta_info->fetch_object();
-      $this->Image('logo.png', 180, 5, 20); //logo de la empresa,moverDerecha,moverAbajo,tamañoIMG
+      $this->Image('Logo_mundo_low.png', 180, 5, 40); //logo de la empresa,moverDerecha,moverAbajo,tamañoIMG
       $this->SetFont('Arial', 'B', 19); //tipo fuente, negrita(B-I-U-BIU), tamañoTexto
       $this->Cell(40); // Movernos a la derecha
       $this->SetTextColor(0, 0, 0); //color
@@ -33,7 +33,7 @@ class PDF extends FPDF
       $this->Cell(59, 10, utf8_decode("Teléfono : . $dato_info->telefono"), 0, 0, '', 0);
       $this->Ln(5);
 
-      /* COREEO */
+      /* RUC */
       $this->Cell(130);  // mover a la derecha
       $this->SetFont('Arial', 'B', 10);
       $this->Cell(85, 10, utf8_decode("Ruc : " . $dato_info->ruc), 0, 0, '', 0);
